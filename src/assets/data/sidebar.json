@@ -1,0 +1,10 @@
+[
+  {
+    "display_name": "Employee",
+    "route": "/"
+  },
+  {
+    "display_name": "Team",
+    "route": "/team"
+  }
+]
