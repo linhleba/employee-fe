@@ -7,3 +7,10 @@ export const getEmployee = async () => {
   });
   return data;
 };
+export const deleteEmpoyee = async (payload) => {
+  let status;
+  await apiCaller(`api/employee/delete/${payload}`, 'delete').then((res) => {
+    status = res.status;
+  });
+  return status;
+};

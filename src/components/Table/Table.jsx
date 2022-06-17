@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Pagination from '@mui/material/Pagination';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { disableDelete } from '../../redux/ducks/disableDelete';
 
 const Table = ({
   headData,
@@ -10,6 +11,7 @@ const Table = ({
   specialData = [],
   limit = 5,
 }) => {
+  const dispatch = useDispatch();
   const keywordSearch = useSelector((state) => state.searching.keyword);
   const [slicedData, setslicedData] = useState(
     limit && bodyData ? bodyData.slice(0, 5) : bodyData,
@@ -20,12 +22,28 @@ const Table = ({
 
   const [formatData, setFormatData] = useState(bodyData);
   const [range, setRange] = useState(1);
+  const isFetch = useSelector((state) => state.fetchApi?.fetchEmployee);
 
   //   const checkedBox = useRef();
+
+  useEffect(() => {
+    setIsCheck([]);
+  }, [isFetch]);
+
+  useEffect(() => {
+    // console.log(isCheck);
+    if (isCheck.length == 0) {
+      dispatch(disableDelete(true));
+    } else {
+      const data = formatData.filter((item, index) => isCheck.includes(index));
+      dispatch(disableDelete(false, data));
+    }
+  }, [isCheck]);
+
   useEffect(() => {
     setFormatData(bodyData);
     setslicedData(formatData.slice(0, 5));
-    console.log('format data is', formatData);
+
     formatData
       ? setRange([...Array(Math.ceil(formatData.length / limit)).keys()])
       : setRange(1);
