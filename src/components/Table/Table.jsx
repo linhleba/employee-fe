@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Pagination from '@mui/material/Pagination';
+import { useSelector } from 'react-redux';
 
 const Table = ({
   headData,
@@ -9,32 +10,61 @@ const Table = ({
   specialData = [],
   limit = 5,
 }) => {
+  const keywordSearch = useSelector((state) => state.searching.keyword);
   const [slicedData, setslicedData] = useState(
     limit && bodyData ? bodyData.slice(0, 5) : bodyData,
   );
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
+  const [searchColumns, setSearchColumns] = useState(['fullName', 'phone']);
+
+  const [formatData, setFormatData] = useState(bodyData);
+  const [range, setRange] = useState(1);
 
   //   const checkedBox = useRef();
-
   useEffect(() => {
-    setslicedData(bodyData.slice(0, 5));
+    setFormatData(bodyData);
+    setslicedData(formatData.slice(0, 5));
+    console.log('format data is', formatData);
+    formatData
+      ? setRange([...Array(Math.ceil(formatData.length / limit)).keys()])
+      : setRange(1);
   }, [bodyData]);
 
+  useEffect(() => {
+    const result = bodyData.filter((row) =>
+      searchColumns.some((column) => {
+        return (
+          row[column]
+            .toString()
+            .toLowerCase()
+            .indexOf(keywordSearch.toLowerCase()) > -1
+        );
+      }),
+    );
+    setFormatData(result);
+    setcurrentPage(0);
+  }, [keywordSearch]);
+
+  useEffect(() => {
+    setslicedData(formatData.slice(0, 5));
+    formatData
+      ? setRange([...Array(Math.ceil(formatData.length / limit)).keys()])
+      : setRange(1);
+  }, [formatData]);
+
   const [currentPage, setcurrentPage] = useState(0);
-  let range = bodyData
-    ? [...Array(Math.ceil(bodyData.length / limit)).keys()]
-    : 1;
+
   const selectPage = (page) => {
     const start = limit * page;
     const end = start + limit;
-    setslicedData(bodyData.slice(start, end));
+    setslicedData(formatData.slice(start, end));
     setcurrentPage(page);
   };
 
   const handleAllCheckboxes = (e) => {
     setIsCheckAll(!isCheckAll);
-    setIsCheck(bodyData.map((data, index) => index));
+    setIsCheck(formatData.map((data, index) => index));
     if (isCheckAll) {
       setIsCheck([]);
     }
@@ -165,6 +195,7 @@ const Table = ({
         color="primary"
         count={range.length}
         size="large"
+        page={currentPage + 1}
         onChange={(event, page) => selectPage(page - 1)}
       />
     </>
