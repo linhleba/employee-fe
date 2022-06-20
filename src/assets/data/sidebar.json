@@ -1,7 +1,8 @@
 [
   {
     "display_name": "Employee",
-    "route": "/"
+    "route": "/",
+    "childRoute": "/employee"
   },
   {
     "display_name": "Team",

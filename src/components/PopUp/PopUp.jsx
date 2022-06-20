@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import Controls from '../controls/Controls';
-// import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {
@@ -41,7 +41,7 @@ const PopUp = (props) => {
               setOpenPopup(false);
             }}
           >
-            {/* <CloseIcon /> */}
+            <CloseIcon />
           </Controls.ActionButton>
         </div>
       </DialogTitle>

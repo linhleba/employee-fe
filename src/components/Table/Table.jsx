@@ -1,7 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { disableDelete } from '../../redux/ducks/disableDelete';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import InfoIcon from '@mui/icons-material/Info';
+// import { EmployeeContext } from '../../pages/Employee';
 
 const Table = ({
   headData,
@@ -11,6 +15,8 @@ const Table = ({
   specialData = [],
   limit = 5,
 }) => {
+  //   const setOpenPopup = useContext(EmployeeContext);
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const keywordSearch = useSelector((state) => state.searching.keyword);
   const [slicedData, setslicedData] = useState(
@@ -94,6 +100,13 @@ const Table = ({
     if (!checked) {
       setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
     }
+  };
+
+  const handleViewDetails = (index) => {
+    // setOpenPopup(true);
+    const employeeData = slicedData[index];
+    console.log('slicedData is', slicedData[index]);
+    navigate(`/employee/${employeeData.id}/info`);
   };
 
   return (
@@ -196,13 +209,13 @@ const Table = ({
                 <td className="px-6 py-4">{item.phone}</td>
                 <td className="px-6 py-4">{item.team}</td> */}
 
-                  <td className="px-6 py-4 text-right">
-                    <a
-                      href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Edit
-                    </a>
+                  <td className="px-6 py-4">
+                    <InfoIcon
+                      className="icon"
+                      onClick={() => handleViewDetails(index)}
+                    />
+
+                    <DeleteRoundedIcon className="icon" />
                   </td>
                 </tr>
               );

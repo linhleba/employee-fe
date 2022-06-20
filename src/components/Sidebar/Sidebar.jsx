@@ -17,9 +17,20 @@ const SidebarItem = (props) => {
 
 const Sidebar = () => {
   const location = useLocation();
-  const activeItem = sidebar_items.findIndex(
-    (item) => item.route === location.pathname,
-  );
+  const activeItem = () => {
+    let value = sidebar_items.findIndex(
+      (item) => item.route === location.pathname,
+    );
+    console.log('value is', value);
+
+    if (value == -1) {
+      console.log('location pathname', location.pathname);
+      value = sidebar_items.findIndex((item) =>
+        location.pathname.includes(item?.route),
+      );
+    }
+    return value;
+  };
   return (
     <div className="sidebar">
       {sidebar_items.map((obj, key) => (
@@ -27,7 +38,7 @@ const Sidebar = () => {
           <SidebarItem
             title={obj.display_name}
             // icon={obj.icon}
-            active={key === activeItem}
+            active={key === activeItem()}
           />
         </Link>
       ))}

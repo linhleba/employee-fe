@@ -26,8 +26,6 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
       ...values,
       [name]: vals,
     });
-    // validate while changing input
-    // if (validateOnChange) validate({ [name]: vals });
   };
 
   const handleCreatableInput = (field, value) => {

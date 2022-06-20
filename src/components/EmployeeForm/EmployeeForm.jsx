@@ -1,70 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import Controls from '../../components/controls/Controls';
 import { useForm, Form } from '../../components/useForm/useForm';
 // import * as employeeService from '../../services/employeeService';
 import { Autocomplete } from '@material-ui/lab';
+import * as api from '../../api/index';
+import moment from 'moment';
 
-const EmployeeForm = ({ employeeData }) => {
+const EmployeeForm = ({ employeeData, handleInfo }) => {
+  const [team, setTeam] = useState([]);
+
+  useEffect(() => {
+    async function getTeam() {
+      const data = await api.getTeam();
+
+      setTeam(data);
+    }
+    getTeam();
+  }, []);
+
+  //   useEffect(() => {
+  //     console.log('team is', team);
+  //   }, [team]);
   let initialFValues;
 
-  const sexOptions = {
-    0: 'male',
-    1: 'female',
-  };
+  const sexOptions = [
+    {
+      id: 0,
+      name: 'Male',
+    },
+    {
+      id: 1,
+      name: 'Female',
+    },
+  ];
 
-  if (employeeData) {
-    initialFValues = {
-      //   fullName: 'Lê Thị Hoa 119',
-      //   sex: 1,
-      //   age: 22,
-      //   phone: '0374345648',
-      //   address: 'TMA',
-      //   money: 20,
-      //   startDate: '02/02/2020',
-      //   urlImage: null,
-      //   team: {
-      //     id: 1,
-      //     name: null,
-      //   },
-    };
-    // setIsAddingForm(false);
-  } else {
-    initialFValues = {
-      fullName: '',
-      sex: 0,
-      age: '',
-      phone: '',
-      address: '',
-      money: '',
-      startDate: '02/02/2020',
-      urlImage:
-        'https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png',
-      team: {
-        id: '',
-        name: null,
-      },
-    };
-    // setIsAddingForm(true);
-  }
+  let currentDate = moment().format('MM-DD-YYYY');
+
+  initialFValues = {
+    fullName: '',
+    sex: 0,
+    age: '',
+    phone: '',
+    address: '',
+    money: '',
+    startDate: currentDate,
+    urlImage:
+      'https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png',
+    team_id: '1',
+  };
+  // setIsAddingForm(true);
+
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ('fullName' in fieldValues)
       temp.fullName = fieldValues.fullName
         ? ''
-        : 'Trường này không được để trống.';
-    if ('sex' in fieldValues)
-      temp.sex = fieldValues.sex = fieldValues.sex
-        ? ''
-        : 'Trường này không được để trống.';
+        : 'The field shoud not be blank.';
+    if ('address' in fieldValues)
+      temp.address = fieldValues.address ? '' : 'The field shoud not be blank.';
+    if ('age' in fieldValues)
+      temp.age = fieldValues.age ? '' : 'The field shoud not be blank.';
+    if ('money' in fieldValues)
+      temp.money = fieldValues.money ? '' : 'The field shoud not be blank.';
 
+    if ('phone' in fieldValues)
+      temp.phone = fieldValues.phone ? '' : 'The field shoud not be blank.';
     setErrors({
       ...temp,
     });
 
     if (fieldValues == values) return Object.values(temp).every((x) => x == '');
   };
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      //   console.log('vao trong nay');
+      handleInfo(values, resetForm, employeeData);
+    }
+  };
   const {
     values,
     setValues,
@@ -80,15 +94,72 @@ const EmployeeForm = ({ employeeData }) => {
       <Grid container>
         <Grid item xs={6}>
           <Controls.Input
-            name="name"
-            label="Employee name"
-            value={values.name}
+            name="fullName"
+            label="Name"
+            value={values.fullName}
             onChange={handleInputChange}
-            error={errors.name}
+            error={errors.fullName}
+          />
+          <Controls.Input
+            name="address"
+            label="Employee address"
+            value={values.address}
+            onChange={handleInputChange}
+            error={errors.address}
+          />
+          <Controls.Input
+            type="number"
+            name="age"
+            label="Age"
+            value={values.age}
+            onChange={handleInputChange}
+            error={errors.age}
+          />
+          <Controls.Input
+            type="number"
+            name="money"
+            label="Money/hour"
+            value={values.money}
+            onChange={handleInputChange}
+            error={errors.money}
           />
         </Grid>
         <Grid item xs={6}>
-          <div></div>
+          <div>
+            <Controls.Select
+              name="team_id"
+              label="Team"
+              value={values.team_id}
+              onChange={handleInputChange}
+              error={errors.team_id}
+              options={team}
+            />
+            <Controls.Select
+              name="sex"
+              label="Sex"
+              value={values.sex}
+              onChange={handleInputChange}
+              error={errors.sex}
+              options={sexOptions}
+            />
+            <Controls.DatePicker
+              name="startDate"
+              label="Date"
+              value={values.startDate}
+              onChange={handleInputChange}
+              error={errors.startDate}
+            />
+            <Controls.Input
+              type="number"
+              name="phone"
+              label="Phone number"
+              value={values.phone}
+              onChange={handleInputChange}
+              error={errors.phone}
+            />
+            <Controls.Button type="submit" text="Confirm" />
+            <Controls.Button text="Reset" color="default" onClick={resetForm} />
+          </div>
         </Grid>
       </Grid>
     </Form>

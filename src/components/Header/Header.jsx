@@ -14,11 +14,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as api from '../../api/index';
+import EditIcon from '@mui/icons-material/Edit';
 
-const Header = () => {
+const Header = ({
+  setOpenPopup,
+  headerName = 'Employee',
+  isCreatableButton = true,
+}) => {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
-  const headerName = 'Employee';
+  // const headerName = 'Employee';
   const disableButton = useSelector((state) => state.disableDelete.disable);
   const deleteData = useSelector((state) => state.disableDelete.data);
   const handleOnClickDelete = (e) => {
@@ -52,11 +57,22 @@ const Header = () => {
           <h3>{headerName}</h3>
         </div>
         <div className="header-action">
-          <AddCircleIcon fontSize="large" id="icon" />
-
+          {isCreatableButton ? (
+            <AddCircleIcon
+              fontSize="large"
+              className="icon"
+              onClick={() => setOpenPopup(true)}
+            />
+          ) : (
+            <EditIcon
+              fontSize="large"
+              className="icon"
+              // onClick={() => setOpenPopup(true)}
+            />
+          )}
           <DeleteRoundedIcon
             fontSize="large"
-            id="icon"
+            className="icon"
             color={disableButton ? 'disabled' : 'inherit'}
             disabled={disableButton}
             onClick={(e) => handleOnClickDelete(e)}
