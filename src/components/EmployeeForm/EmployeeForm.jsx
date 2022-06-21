@@ -37,18 +37,32 @@ const EmployeeForm = ({ employeeData, handleInfo }) => {
 
   let currentDate = moment().format('MM-DD-YYYY');
 
-  initialFValues = {
-    fullName: '',
-    sex: 0,
-    age: '',
-    phone: '',
-    address: '',
-    money: '',
-    startDate: currentDate,
-    urlImage:
-      'https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png',
-    team_id: '1',
-  };
+  if (employeeData) {
+    initialFValues = {
+      fullName: employeeData.fullName,
+      sex: employeeData.sex,
+      age: employeeData.age,
+      phone: employeeData.phone,
+      address: employeeData.address,
+      money: employeeData.money,
+      startDate: employeeData.startDate,
+      urlImage: employeeData.urlImage,
+      team_id: employeeData.team.id,
+    };
+  } else {
+    initialFValues = {
+      fullName: '',
+      sex: 0,
+      age: '',
+      phone: '',
+      address: '',
+      money: '',
+      startDate: currentDate,
+      urlImage:
+        'https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png',
+      team_id: '1',
+    };
+  }
   // setIsAddingForm(true);
 
   const validate = (fieldValues = values) => {
@@ -157,7 +171,10 @@ const EmployeeForm = ({ employeeData, handleInfo }) => {
               onChange={handleInputChange}
               error={errors.phone}
             />
-            <Controls.Button type="submit" text="Confirm" />
+            <Controls.Button
+              type="submit"
+              text={employeeData ? 'Update' : 'Confirm'}
+            />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
         </Grid>

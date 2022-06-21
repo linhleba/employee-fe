@@ -63,3 +63,19 @@ export const getAdvance = async (id) => {
   });
   return data;
 };
+
+export const createWorking = async (data) => {
+  let status;
+  await apiCaller('api/working', 'post', data).then((res) => {
+    status = res.status;
+  });
+  return status;
+};
+
+export const createAdvance = async (data) => {
+  let status;
+  await apiCaller('api/advance', 'post', data).then((res) => {
+    status = res.status;
+  });
+  return status;
+};

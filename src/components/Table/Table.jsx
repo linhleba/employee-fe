@@ -20,7 +20,7 @@ const Table = ({
   const dispatch = useDispatch();
   const keywordSearch = useSelector((state) => state.searching.keyword);
   const [slicedData, setslicedData] = useState(
-    limit && bodyData ? bodyData.slice(0, 5) : bodyData,
+    limit && bodyData ? bodyData.slice(0, limit) : bodyData,
   );
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
@@ -48,7 +48,7 @@ const Table = ({
 
   useEffect(() => {
     setFormatData(bodyData);
-    setslicedData(formatData.slice(0, 5));
+    setslicedData(formatData.slice(0, limit));
 
     formatData
       ? setRange([...Array(Math.ceil(formatData.length / limit)).keys()])
@@ -71,7 +71,7 @@ const Table = ({
   }, [keywordSearch]);
 
   useEffect(() => {
-    setslicedData(formatData.slice(0, 5));
+    setslicedData(formatData.slice(0, limit));
     formatData
       ? setRange([...Array(Math.ceil(formatData.length / limit)).keys()])
       : setRange(1);
@@ -80,8 +80,8 @@ const Table = ({
   const [currentPage, setcurrentPage] = useState(0);
 
   const selectPage = (page) => {
-    const start = limit * page;
-    const end = start + limit;
+    const start = Number(limit) * page;
+    const end = start + Number(limit);
     setslicedData(formatData.slice(start, end));
     setcurrentPage(page);
   };
@@ -105,7 +105,6 @@ const Table = ({
   const handleViewDetails = (index) => {
     // setOpenPopup(true);
     const employeeData = slicedData[index];
-    console.log('slicedData is', slicedData[index]);
     navigate(`/employee/${employeeData.id}/info`);
   };
 

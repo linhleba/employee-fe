@@ -67,7 +67,10 @@ const Header = ({
             <EditIcon
               fontSize="large"
               className="icon"
-              // onClick={() => setOpenPopup(true)}
+              onClick={() => {
+                console.log('come here');
+                setOpenPopup(true);
+              }}
             />
           )}
           <DeleteRoundedIcon

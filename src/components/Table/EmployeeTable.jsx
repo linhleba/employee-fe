@@ -54,6 +54,7 @@ const EmployeeTable = () => {
               'urlImage',
             ]}
             specialData={['team']}
+            limit="5"
           />
         }
 
