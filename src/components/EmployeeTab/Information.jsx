@@ -19,7 +19,7 @@ const Information = () => {
         />
         <Controls.Input
           name="team"
-          value={'Team: ' + employeeDetail.team?.name}
+          value={'Team: ' + employeeDetail?.teamName}
           disabled
         />
 

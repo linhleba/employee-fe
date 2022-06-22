@@ -64,9 +64,10 @@ const Working = () => {
       <Table
         isCheckedBox={false}
         headData={hData}
-        ignoredData={['employee']}
+        ignoredData={['id', 'employee']}
         bodyData={workingData ? workingData : []}
         limit="3"
+        isDetail={false}
       />
       <PopUp
         title={textDisplayPopup}

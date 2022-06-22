@@ -24,7 +24,7 @@ const Sidebar = () => {
     console.log('value is', value);
 
     if (value == -1) {
-      console.log('location pathname', location.pathname);
+      // console.log('location pathname', location.pathname);
       value = sidebar_items.findIndex((item) =>
         location.pathname.includes(item?.route),
       );

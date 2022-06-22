@@ -79,3 +79,36 @@ export const createAdvance = async (data) => {
   });
   return status;
 };
+
+export const deleteWorking = async (id) => {
+  let status;
+  await apiCaller(`api/working/delete/${id}`, 'delete').then((res) => {
+    status = res.status;
+  });
+  return status;
+};
+
+export const deleteAdvance = async (id) => {
+  let status;
+  await apiCaller(`api/advance/delete/${id}`, 'delete').then((res) => {
+    status = res.status;
+  });
+  return status;
+};
+
+export const createTeam = async (data) => {
+  let status;
+  await apiCaller('api/team', 'post', data).then((res) => {
+    status = res.status;
+  });
+  return status;
+};
+
+export const getWorkingDays = async (id) => {
+  let data;
+  await apiCaller(`api/working/getWorking/${id}`, 'get').then((res) => {
+    console.log('res is', res);
+    data = res.data;
+  });
+  return data;
+};

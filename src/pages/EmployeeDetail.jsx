@@ -14,6 +14,7 @@ const EmployeeDetail = () => {
   const [openPopup, setOpenPopup] = useState(false);
 
   const pathname = window.location.pathname;
+
   const id = pathname.split('/')[2];
   useEffect(() => {
     async function getEmployeeById() {

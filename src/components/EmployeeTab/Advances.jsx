@@ -17,6 +17,24 @@ const Advances = () => {
   const textDisplayPopup = 'Add new advance';
   const [fetchData, setFetchData] = useState(0);
 
+  const fetchAdvanceData = async () => {
+    const reponseData = await api.getAdvance(employeeDetail.id);
+
+    // handle htmlFormat data
+    setadvanceData(reponseData);
+  };
+
+  const handleDelete = async (index) => {
+    console.log('index is', index);
+    console.log('advance data', advanceData);
+    const status = await api.deleteAdvance(advanceData[index].id);
+    if (status == 200) {
+      dispatch(setSnackbar(true, 'success', 'Deleted successfully'));
+      fetchAdvanceData();
+    } else {
+      dispatch(setSnackbar(true, 'error', 'Something went wrong'));
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       const reponseData = await api.getAdvance(employeeDetail.id);
@@ -29,14 +47,7 @@ const Advances = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const reponseData = await api.getAdvance(employeeDetail.id);
-
-      // handle htmlFormat data
-      setadvanceData(reponseData);
-    };
-
-    fetchData();
+    fetchAdvanceData();
   }, [fetchData]);
 
   const handleInfo = async (values, resetForm) => {
@@ -64,8 +75,11 @@ const Advances = () => {
       <Table
         isCheckedBox={false}
         headData={hData}
-        ignoredData={['employee']}
+        ignoredData={['id', 'employee']}
         bodyData={advanceData ? advanceData : []}
+        isDetail={false}
+        handleDelete={handleDelete}
+        limit={3}
       />
       <PopUp
         title={textDisplayPopup}

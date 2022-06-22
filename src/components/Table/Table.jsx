@@ -14,6 +14,10 @@ const Table = ({
   ignoredData = [],
   specialData = [],
   limit = 5,
+  isDetail = true,
+  isDelete = true,
+  handleDelete,
+  handleViewDetails,
 }) => {
   //   const setOpenPopup = useContext(EmployeeContext);
   let navigate = useNavigate();
@@ -100,12 +104,6 @@ const Table = ({
     if (!checked) {
       setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
     }
-  };
-
-  const handleViewDetails = (index) => {
-    // setOpenPopup(true);
-    const employeeData = slicedData[index];
-    navigate(`/employee/${employeeData.id}/info`);
   };
 
   return (
@@ -209,12 +207,25 @@ const Table = ({
                 <td className="px-6 py-4">{item.team}</td> */}
 
                   <td className="px-6 py-4">
-                    <InfoIcon
-                      className="icon"
-                      onClick={() => handleViewDetails(index)}
-                    />
+                    {isDetail ? (
+                      <InfoIcon
+                        className="icon"
+                        onClick={() => handleViewDetails(slicedData[index])}
+                      />
+                    ) : (
+                      ''
+                    )}
 
-                    <DeleteRoundedIcon className="icon" />
+                    {isDelete ? (
+                      <DeleteRoundedIcon
+                        className="icon"
+                        onClick={() =>
+                          handleDelete(index + currentPage * limit)
+                        }
+                      />
+                    ) : (
+                      ''
+                    )}
                   </td>
                 </tr>
               );

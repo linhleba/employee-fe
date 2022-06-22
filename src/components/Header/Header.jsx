@@ -68,7 +68,6 @@ const Header = ({
               fontSize="large"
               className="icon"
               onClick={() => {
-                console.log('come here');
                 setOpenPopup(true);
               }}
             />

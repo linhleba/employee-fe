@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
+import { Routes, Route, Outlet, Link, useLocation } from 'react-router-dom';
 
 const EmployeePanel = ({ employeeId }) => {
   const [value, setValue] = useState(0);
-  let pathname = window.location.pathname.split('/')[3];
+  const location = useLocation();
+  let pathname = location.pathname.split('/')[3];
   const [currentPath, setCurrentPath] = useState(pathname);
-  console.log('path name of it is', pathname);
 
-  //   useEffect(() => {
-  //     setCurrentPath(pathname);
-  //   }, [pathname]);
+  useEffect(() => {
+    setCurrentPath(pathname);
+  }, [pathname]);
 
   const classValue = {
     active:

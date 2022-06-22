@@ -47,7 +47,7 @@ const EmployeeForm = ({ employeeData, handleInfo }) => {
       money: employeeData.money,
       startDate: employeeData.startDate,
       urlImage: employeeData.urlImage,
-      team_id: employeeData.team.id,
+      team_id: employeeData?.teamId,
     };
   } else {
     initialFValues = {

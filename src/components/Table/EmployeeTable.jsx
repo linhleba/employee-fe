@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'flowbite';
 import StyledPagination from '../StyledPagination/StyledPagination';
 import Table from './Table';
@@ -7,9 +8,16 @@ import Search from '../Search/Search';
 import { useDispatch, useSelector } from 'react-redux';
 
 const EmployeeTable = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [employeeData, setEmployeeData] = useState(null);
   const isFetch = useSelector((state) => state.fetchApi?.fetchEmployee);
+
+  const handleViewDetails = (employeeData) => {
+    // setOpenPopup(true);
+    //  const employeeData = slicedData[index];
+    navigate(`/employee/${employeeData.id}/info`);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,9 +60,11 @@ const EmployeeTable = () => {
               'startDate',
               'money',
               'urlImage',
+              'teamId',
             ]}
-            specialData={['team']}
+            // specialData={['team']}
             limit="5"
+            handleViewDetails={handleViewDetails}
           />
         }
 
