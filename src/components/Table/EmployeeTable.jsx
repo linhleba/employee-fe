@@ -42,6 +42,7 @@ const EmployeeTable = () => {
 
   const hData = ['No.', 'Full Name', 'Phone', 'Team', 'Action'];
 
+  const handleDelete = async () => {};
   return (
     <>
       <script src="../path/to/flowbite/dist/flowbite.js"></script>
@@ -65,6 +66,7 @@ const EmployeeTable = () => {
             // specialData={['team']}
             limit="5"
             handleViewDetails={handleViewDetails}
+            handleDelete={() => handleDelete()}
           />
         }
 

@@ -112,3 +112,19 @@ export const getWorkingDays = async (id) => {
   });
   return data;
 };
+
+export const getTotalAdvances = async (id) => {
+  let data;
+  await apiCaller(`api/advance/totalAdvance/${id}`, 'get').then((res) => {
+    data = res.data;
+  });
+  return data;
+};
+
+export const getTotalMoney = async (id) => {
+  let data;
+  await apiCaller(`api/working/totalMoney/${id}`, 'get').then((res) => {
+    data = res.data;
+  });
+  return data;
+};
