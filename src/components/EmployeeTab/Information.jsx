@@ -10,7 +10,7 @@ const Information = () => {
   console.log('value is', employeeDetail);
   return (
     <>
-      <h3>Information</h3>
+      <h3 style={{ fontWeight: 'bold', fontSize: 'large' }}>Information</h3>
       <div className="info-section">
         <Controls.Input
           name="startDate"
