@@ -6,7 +6,7 @@ import { Grid, TextField } from '@material-ui/core';
 import Controls from '../../components/controls/Controls';
 
 const AdvanceForm = ({ handleInfo }) => {
-  let currentDate = moment().format('MM-DD-YYYY');
+  let currentDate = moment().format('YYYY-MM-DD');
   let initialFValues;
   initialFValues = {
     date: currentDate,

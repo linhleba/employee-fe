@@ -6,7 +6,7 @@ import { Grid, TextField } from '@material-ui/core';
 import Controls from '../../components/controls/Controls';
 
 const WorkingForm = ({ handleInfo }) => {
-  let currentDate = moment().format('MM-DD-YYYY');
+  let currentDate = moment().format('YYYY-MM-DD');
   let initialFValues;
   initialFValues = {
     date: currentDate,
@@ -32,6 +32,7 @@ const WorkingForm = ({ handleInfo }) => {
     handleInputChange,
     handleAutoCompleteChange,
     handleCreatableInput,
+    handleInputChangeDate,
     resetForm,
   } = useForm(initialFValues, true, validate);
 

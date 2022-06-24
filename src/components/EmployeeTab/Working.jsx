@@ -67,6 +67,7 @@ const Working = () => {
         ignoredData={['id', 'employee']}
         bodyData={workingData ? workingData : []}
         limit="3"
+        specialData={['date']}
         isDetail={false}
       />
       <PopUp

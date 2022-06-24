@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
+import moment from 'moment';
 
 export function useForm(initialFValues, validateOnChange = false, validate) {
   const [values, setValues] = useState(initialFValues);
@@ -40,6 +41,15 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     // if (validateOnChange) validate({ [name]: vals });
   };
 
+  const handleInputChangeDate = (e) => {
+    const { name, value } = e.target;
+
+    setValues({
+      ...values,
+      [name]: value.format('DD-MM-YYYY'),
+    });
+  };
+
   const resetForm = () => {
     // set the initial values and no errors
     setValues(initialFValues);
@@ -54,6 +64,7 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     handleInputChange,
     handleAutoCompleteChange,
     handleCreatableInput,
+    handleInputChangeDate,
     resetForm,
   };
 }

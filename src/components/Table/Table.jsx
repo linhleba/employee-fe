@@ -6,6 +6,7 @@ import { disableDelete } from '../../redux/ducks/disableDelete';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import InfoIcon from '@mui/icons-material/Info';
 // import { EmployeeContext } from '../../pages/Employee';
+import moment from 'moment';
 
 const Table = ({
   headData,
@@ -181,14 +182,25 @@ const Table = ({
 
                   {Object.entries(item).map((value, index) => {
                     if (specialData.includes(value[0])) {
-                      return (
-                        <td
-                          className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-                          key={index}
-                        >
-                          {value[1].name}
-                        </td>
-                      );
+                      if (value[0] === 'date') {
+                        return (
+                          <td
+                            className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
+                            key={index}
+                          >
+                            {value[1].split('T')[0]}
+                          </td>
+                        );
+                      } else {
+                        return (
+                          <td
+                            className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
+                            key={index}
+                          >
+                            {value[1].name}
+                          </td>
+                        );
+                      }
                     } else if (!ignoredData.includes(value[0])) {
                       return (
                         <td

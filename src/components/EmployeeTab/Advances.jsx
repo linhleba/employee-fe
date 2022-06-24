@@ -80,6 +80,7 @@ const Advances = () => {
         isDetail={false}
         handleDelete={handleDelete}
         limit={3}
+        specialData={['date']}
       />
       <PopUp
         title={textDisplayPopup}
