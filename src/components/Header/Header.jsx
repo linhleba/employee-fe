@@ -54,7 +54,9 @@ const Header = ({
     <>
       <div className="header">
         <div className="header-name">
-          <h3>{headerName}</h3>
+          <h3 style={{ fontWeight: 'bold', fontSize: 'large' }}>
+            {headerName}
+          </h3>
         </div>
         <div className="header-action">
           {isCreatableButton ? (

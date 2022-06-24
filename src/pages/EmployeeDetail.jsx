@@ -6,9 +6,12 @@ import EmployeeImage from '../components/EmployeeImage/EmployeeImage';
 import EmployeePanel from '../components/EmployeePanel/EmployeePanel';
 import PopUp from '../components/PopUp/PopUp';
 import EmployeeForm from '../components/EmployeeForm/EmployeeForm';
+import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'redux/ducks/snackbar';
 
 export const EmployeeDetailContext = createContext();
 const EmployeeDetail = () => {
+  const dispatch = useDispatch();
   const [employeeDetail, setEmployeeDetail] = useState([]);
   const textDisplayPopup = `${employeeDetail?.fullName}`;
   const [openPopup, setOpenPopup] = useState(false);
@@ -16,14 +19,23 @@ const EmployeeDetail = () => {
   const pathname = window.location.pathname;
 
   const id = pathname.split('/')[2];
+  async function getEmployeeById() {
+    const detailData = await api.getEmployeeById(id);
+    setEmployeeDetail(detailData);
+  }
   useEffect(() => {
-    async function getEmployeeById() {
-      const detailData = await api.getEmployeeById(id);
-      setEmployeeDetail(detailData);
-    }
     getEmployeeById();
   }, []);
-  const handleInfo = () => {};
+  const handleInfo = async (values, resetForm) => {
+    console.log('values is', values);
+    const status = await api.updateEmployee(id, values);
+    if (status === 200) {
+      dispatch(setSnackbar('true', 'success', 'Updated employee successfully'));
+      getEmployeeById();
+    } else {
+      dispatch(setSnackbar('false', 'error', 'Something went wrong'));
+    }
+  };
   return (
     <EmployeeDetailContext.Provider value={employeeDetail}>
       <Header

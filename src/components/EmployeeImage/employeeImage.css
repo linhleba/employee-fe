@@ -40,3 +40,15 @@
 
   /* padding: 2px; */
 }
+img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.employee-image {
+  margin-right: 30px;
+}
+.image-container {
+  margin: 10px 0px;
+}

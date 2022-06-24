@@ -6,6 +6,7 @@ import Table from './Table';
 import * as api from '../../api/index';
 import Search from '../Search/Search';
 import { useDispatch, useSelector } from 'react-redux';
+import { setSnackbar } from 'redux/ducks/snackbar';
 
 const EmployeeTable = () => {
   const navigate = useNavigate();
@@ -18,31 +19,34 @@ const EmployeeTable = () => {
     //  const employeeData = slicedData[index];
     navigate(`/employee/${employeeData.id}/info`);
   };
+  const fetchData = async () => {
+    const reponseData = await api.getEmployee();
+
+    // handle htmlFormat data
+    setEmployeeData(reponseData);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const reponseData = await api.getEmployee();
-
-      // handle htmlFormat data
-      setEmployeeData(reponseData);
-    };
-
     fetchData();
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const reponseData = await api.getEmployee();
-      // handle htmlFormat data
-      setEmployeeData(reponseData);
-    };
-
     fetchData();
   }, [isFetch]);
 
   const hData = ['No.', 'Full Name', 'Phone', 'Team', 'Action'];
 
-  const handleDelete = async () => {};
+  const handleDelete = async (index) => {
+    console.log('idnex', index);
+    console.log(employeeData);
+    const status = await api.deleteEmpoyee(employeeData[index].id);
+    if (status === 200) {
+      dispatch(setSnackbar(true, 'success', 'Deleted employee successfully'));
+      fetchData();
+    } else {
+      dispatch(setSnackbar(true, 'error', 'Something went wrong'));
+    }
+  };
   return (
     <>
       <script src="../path/to/flowbite/dist/flowbite.js"></script>
@@ -66,7 +70,7 @@ const EmployeeTable = () => {
             // specialData={['team']}
             limit="5"
             handleViewDetails={handleViewDetails}
-            handleDelete={() => handleDelete()}
+            handleDelete={(index) => handleDelete(index)}
           />
         }
 

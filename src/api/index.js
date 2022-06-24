@@ -128,3 +128,19 @@ export const getTotalMoney = async (id) => {
   });
   return data;
 };
+
+export const updateEmployee = async (id, payload) => {
+  // console.log('payload is', id);
+  const data = {
+    ...payload,
+    team: {
+      id: payload.team_id,
+    },
+  };
+  let message;
+  await apiCaller(`api/employee/${id}`, 'put', data).then((res) => {
+    // console.log('res update is', res);
+    message = res.status;
+  });
+  return message;
+};

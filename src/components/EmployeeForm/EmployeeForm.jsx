@@ -6,6 +6,8 @@ import { useForm, Form } from '../../components/useForm/useForm';
 import { Autocomplete } from '@material-ui/lab';
 import * as api from '../../api/index';
 import moment from 'moment';
+import Axios from 'axios';
+import * as ImageConfig from '../../constants/ImageConfig';
 
 const EmployeeForm = ({ employeeData, handleInfo }) => {
   const [team, setTeam] = useState([]);
@@ -39,14 +41,14 @@ const EmployeeForm = ({ employeeData, handleInfo }) => {
 
   if (employeeData) {
     initialFValues = {
-      fullName: employeeData.fullName,
-      sex: employeeData.sex,
-      age: employeeData.age,
-      phone: employeeData.phone,
-      address: employeeData.address,
-      money: employeeData.money,
-      startDate: employeeData.startDate,
-      urlImage: employeeData.urlImage,
+      fullName: employeeData?.fullName,
+      sex: employeeData?.sex,
+      age: employeeData?.age,
+      phone: employeeData?.phone,
+      address: employeeData?.address,
+      money: employeeData?.money,
+      startDate: employeeData?.startDate,
+      urlImage: employeeData?.urlImage,
       team_id: employeeData?.teamId,
     };
   } else {
@@ -93,6 +95,22 @@ const EmployeeForm = ({ employeeData, handleInfo }) => {
       handleInfo(values, resetForm, employeeData);
     }
   };
+
+  const uploadImage = (file) => {
+    const formData = new FormData();
+    formData.append('file', file[0]);
+
+    formData.append('upload_preset', ImageConfig.NAME_UPLOAD_PRESET);
+
+    Axios.post(ImageConfig.URL_UPLOAD_IMAGE, formData).then((res) => {
+      // console.log('res is', res);
+      setValues({
+        ...values,
+        ['urlImage']: res.data.url,
+      });
+    });
+  };
+
   const {
     values,
     setValues,
@@ -137,6 +155,30 @@ const EmployeeForm = ({ employeeData, handleInfo }) => {
             onChange={handleInputChange}
             error={errors.money}
           />
+
+          <input
+            id="file-upload"
+            name="urlImage"
+            type="file"
+            label="Employee Image"
+            onChange={(e) => uploadImage(e.target.files)}
+          />
+
+          <div className="employee-image">
+            {values.urlImage ? (
+              <img
+                src={values.urlImage}
+                alt="Album Art"
+                className="userImageInfo"
+              />
+            ) : (
+              <img
+                src="https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png"
+                alt="Album Art"
+                className="userImageInfo"
+              />
+            )}
+          </div>
         </Grid>
         <Grid item xs={6}>
           <div>
