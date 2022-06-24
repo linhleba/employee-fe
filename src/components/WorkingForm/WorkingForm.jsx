@@ -15,7 +15,13 @@ const WorkingForm = ({ handleInfo }) => {
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ('hour' in fieldValues)
-      temp.hour = fieldValues.hour ? '' : 'The field shoud not be blank.';
+      if (!fieldValues.hour) {
+        temp.hour = 'The field shoud not be blank.';
+      } else {
+        temp.hour = Number(fieldValues.hour > 0)
+          ? ''
+          : 'Hour must be a positive value';
+      }
 
     setErrors({
       ...temp,

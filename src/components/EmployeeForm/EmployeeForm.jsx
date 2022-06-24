@@ -76,12 +76,32 @@ const EmployeeForm = ({ employeeData, handleInfo }) => {
     if ('address' in fieldValues)
       temp.address = fieldValues.address ? '' : 'The field shoud not be blank.';
     if ('age' in fieldValues)
-      temp.age = fieldValues.age ? '' : 'The field shoud not be blank.';
+      if (!fieldValues.age) {
+        temp.age = 'The field shoud not be blank.';
+      } else {
+        temp.age =
+          Number(fieldValues.age) > 18
+            ? ''
+            : 'Age must be at least 18 years old';
+      }
     if ('money' in fieldValues)
-      temp.money = fieldValues.money ? '' : 'The field shoud not be blank.';
+      if (!fieldValues.money) {
+        temp.money = 'The field shoud not be blank.';
+      } else {
+        temp.money = Number(fieldValues.money > 0)
+          ? ''
+          : 'Money must be a positive value';
+      }
 
     if ('phone' in fieldValues)
-      temp.phone = fieldValues.phone ? '' : 'The field shoud not be blank.';
+      if (!fieldValues.phone) {
+        temp.phone = 'The field shoud not be blank.';
+      } else {
+        temp.phone =
+          fieldValues.phone.length > 9
+            ? ''
+            : 'The phone must be at least 10 number';
+      }
     setErrors({
       ...temp,
     });

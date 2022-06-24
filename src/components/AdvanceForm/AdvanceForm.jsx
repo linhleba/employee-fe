@@ -15,7 +15,13 @@ const AdvanceForm = ({ handleInfo }) => {
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ('money' in fieldValues)
-      temp.money = fieldValues.money ? '' : 'The field shoud not be blank.';
+      if (!fieldValues.money) {
+        temp.money = 'The field shoud not be blank.';
+      } else {
+        temp.money = Number(fieldValues.money > 0)
+          ? ''
+          : 'Money must be a positive value';
+      }
 
     setErrors({
       ...temp,
